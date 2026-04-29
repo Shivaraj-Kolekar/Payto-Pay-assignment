@@ -159,3 +159,18 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
 ]
+
+# Celery (Upstash Redis)
+import ssl
+CELERY_BROKER_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
+CELERY_RESULT_BACKEND = CELERY_BROKER_URL
+CELERY_BROKER_USE_SSL = {"ssl_cert_reqs": ssl.CERT_NONE} if "rediss://" in CELERY_BROKER_URL else None
+CELERY_REDIS_BACKEND_USE_SSL = CELERY_BROKER_USE_SSL
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+
+CELERY_BEAT_SCHEDULE = {
+    'scan-stuck-payouts': {
+        'task': 'apps.payouts.tasks.scan_stuck_payouts',
+        'schedule': 30.0,  # every 30 seconds
+    },
+}

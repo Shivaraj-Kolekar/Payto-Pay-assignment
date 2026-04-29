@@ -15,6 +15,7 @@ from apps.payouts.serializers import (
     PayoutCreateSerializer,
     PayoutSerializer,
 )
+from apps.payouts.tasks import process_payout
 
 
 # ── Bank Accounts ───────────────────────────────────────────────
@@ -112,8 +113,7 @@ def payouts(request):
         )
 
     # 6. After transaction commits, queue async processing
-    # (will be wired in Phase 6 with Celery)
-    # process_payout.delay(payout.id)
+    process_payout.delay(payout.id)
 
     # 7. Return response
     return Response(response_data, status=status.HTTP_201_CREATED)
