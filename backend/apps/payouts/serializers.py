@@ -9,11 +9,16 @@ class BankAccountSerializer(serializers.ModelSerializer):
 
 
 class PayoutSerializer(serializers.ModelSerializer):
+    bank_account_name = serializers.CharField(
+        source='bank_account.account_holder_name', read_only=True
+    )
+
     class Meta:
         model = Payout
         fields = [
             'id', 'amount_paise', 'status', 'bank_account',
-            'idempotency_key', 'attempts', 'created_at', 'updated_at',
+            'bank_account_name', 'idempotency_key', 'attempts',
+            'created_at', 'updated_at',
         ]
 
 

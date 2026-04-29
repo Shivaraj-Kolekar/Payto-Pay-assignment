@@ -3,6 +3,7 @@ interface Payout {
   amount_paise: number;
   status: string;
   bank_account: number;
+  bank_account_name: string;
   created_at: string;
 }
 
@@ -66,7 +67,7 @@ export default function PayoutTable({ payouts }: PayoutTableProps) {
                     {payout.status}
                   </span>
                 </td>
-                <td className="px-5 py-3 text-xs text-zinc-500 font-mono">#{payout.bank_account}</td>
+                <td className="px-5 py-3 text-xs text-zinc-500">{payout.bank_account_name}</td>
                 <td className="px-5 py-3 text-xs text-zinc-500">{formatDate(payout.created_at)}</td>
               </tr>
             ))}
