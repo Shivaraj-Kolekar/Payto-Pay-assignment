@@ -25,6 +25,7 @@ interface Payout {
   amount_paise: number;
   status: string;
   bank_account: number;
+  bank_account_name: string;
   created_at: string;
 }
 
